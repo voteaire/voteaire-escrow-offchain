@@ -1,6 +1,6 @@
 """A CLI utility to build oracle transactions in the preprod network"""
 
-from lib import cardano
+from lib import cardano, data_types
 from dotenv import load_dotenv
 from blockfrost import BlockFrostApi
 
@@ -32,7 +32,7 @@ def main():
     tx_hash, index = args.input.split("#")
     input_utxo = cardano.utxo_from_input(api, tx_hash, int(index))
 
-    print(cardano.cbor_datum_to_dict(input_utxo.output.datum.cbor))
+    print(data_types.cbor_datum_to_dict(input_utxo.output.datum.cbor))
 
 
 if __name__ == "__main__":

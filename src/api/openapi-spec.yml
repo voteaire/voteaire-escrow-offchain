@@ -1,0 +1,108 @@
+openapi: 3.0.0
+
+servers:
+  - url: http://localhost:8080/
+    description: Local test server (docker compose)
+  - url: http://localhost:8081/
+    description: Local test server - running directly
+
+info:
+  description: API
+  version: "1.0.0"
+  title: API
+  contact:
+    email: santos.mateus@protonmail.com
+
+paths:
+  /health:
+    get:
+      summary: provides a health check for the application
+      operationId: api.health.get
+      description: |
+        Gets the health of the application
+      responses:
+        "200":
+          description: Successful health check - status will be 'ok' if health is good
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+        "500":
+          description: Unsuccessful health check
+
+
+  /oracle/{proposal_id}/submit:
+    post:
+      summary: submit oracle results for a specific proposal_id
+      operationId: api.oracles.submit
+      description: |
+        Submit oracle results for a specific proposal_id
+      parameters:
+        - in: path
+          name: proposal_id
+          description: The proposal id whose results we are receiving
+          required: true
+          schema:
+            type: string
+            example: 4d8de835-b95d-4866-a4a7-e5f0be655407
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - transaction_hash
+                - index
+                - pubkey
+                - signature
+                - results
+              properties:
+                transaction_hash:
+                  type: string
+                  example: c49fa47472acbabe0d061c2bf136e1e53029e4c5594f750c7058cebae16608cf
+                index:
+                  type: integer
+                  example: 0
+                pubkey:
+                  type: string
+                  example: 14889cdb4b72ad10d4d4243c4f50141eea1d10a3482cd20a7da6245d05ea01f1
+                signature:
+                  type: string
+                  example: aabbcc
+                results:
+                  type: string
+                  example: 11111|1212|213342
+      responses:
+        "200":
+          description: beep
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Invalid signature!"
+        "500":
+          description: Unsuccessful health check
+
+
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Something really bad happened!"

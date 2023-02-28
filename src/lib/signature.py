@@ -16,3 +16,18 @@ def verify(vkey_hex: str, message_hex: str, signature_hex: str):
         bytes.fromhex(message_hex),
         bytes.fromhex(signature_hex),
     )
+
+
+# Function that should enforce the standard for a string
+# It should make sure that the string is in the follwing format:
+# "<question1choice1>,<question1choice2>,...|<question2choice1>,<question2choice2>,...|..."
+# where everything inside <> should be an integer
+def enforce_standard(results: str) -> bool:
+    for question in results.split("|"):
+        for choice in question.split(","):
+            try:
+                int(choice)
+            except ValueError:
+                return False
+
+    return True

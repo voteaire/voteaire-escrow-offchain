@@ -118,3 +118,16 @@ Most importantly, though, if we look at the datum, we can see that we now have o
 ```
 
 This means now any smart contract can use this information to determine some kind of behaviour. For instance, an escrow smart contract.
+
+
+## Results Standard
+
+The results string which should be singed by the oracles must follow this format:
+
+"<question1choice1>,<question1choice2>,...|<question2choice1>,<question2choice2>,...|..."
+
+Meaning the voting weight for each choice should be separated by `,` while the questions should be separated by `|`.
+
+For example, for this [ballot](https://voteaire.io/results/b77d4209-71d1-4c85-9677-d6b98141ad11), we would have the following results:
+
+`"578,214693|484,214787|578,214693"`
